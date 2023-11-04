@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { ReactElement, useState } from 'react'
 import './index.css'
 
-const decimalToBinary = function(num: string) {
+const decimalToBinary = function(num: string): string {
     const bits = "00000000000000000000000000000000";
     const binary = (parseInt(num) >>> 0).toString(2);
     const result = bits.slice(0, bits.length - binary.length) + binary;
@@ -13,9 +13,9 @@ function App() {
     const [secondNum, setSecondNum] = useState("")
     const [operation, setOperation] = useState("Right Shift (>>)")
 
-    const bitwiseAnd = function(a, b) {
-        const splitA = a.split("");
-        const splitB = b.split("");
+    const bitwiseAnd = function(a: string, b: string) {
+        const splitA: (string | ReactElement)[] = a.split("");
+        const splitB: (string | ReactElement)[] = b.split("");
         for (let i = 0; i < 32; i++) {
             if (splitA[i] === "1" && splitB[i] === "1") {
                 splitA[i] = <span className='text-emerald-400'>{a[i]}</span>
@@ -25,9 +25,9 @@ function App() {
         return [splitA, splitB];
     }
 
-    const bitwiseOr = function(a, b) {
-        const splitA = a.split("");
-        const splitB = b.split("");
+    const bitwiseOr = function(a: string, b: string) {
+        const splitA: (string | ReactElement)[] = a.split("");
+        const splitB: (string | ReactElement)[] = b.split("");
         for (let i = 0; i < 32; i++) {
             if (splitA[i] === "1") {
                 splitA[i] = <span className='text-emerald-400'>{a[i]}</span>
@@ -39,9 +39,9 @@ function App() {
         return [splitA, splitB];
     }
 
-    const bitwiseXor = function(a, b) {
-        const splitA = a.split("");
-        const splitB = b.split("");
+    const bitwiseXor = function(a: string, b: string) {
+        const splitA: (string | ReactElement)[] = a.split("");
+        const splitB: (string | ReactElement)[] = b.split("");
         for (let i = 0; i < 32; i++) {
             if (splitA[i] === "1" && splitB[i] !== "1") {
                 splitA[i] = <span className='text-emerald-400'>{a[i]}</span>
