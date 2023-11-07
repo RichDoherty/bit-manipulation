@@ -63,43 +63,67 @@ function BitManipulation() {
             result.push(colorizedNums[0]);
             result.push(colorizedNums[1]);
             result.push(decimalToBinary((parseInt(firstNum) & parseInt(secondNum)).toString()));
+            result.push(firstNum);
+            result.push(secondNum);
+            result.push(parseInt(firstNum) & parseInt(secondNum));
         } else if (op === "Bitwise OR (|)") {
             const colorizedNums = bitwiseOr(decimalToBinary(firstNum), decimalToBinary(secondNum));
             result.push(colorizedNums[0]);
             result.push(colorizedNums[1]);
             result.push(decimalToBinary((parseInt(firstNum) | parseInt(secondNum)).toString()));
+            result.push(firstNum);
+            result.push(secondNum);
+            result.push(parseInt(firstNum) | parseInt(secondNum));
         } else if (op === "Bitwise XOR (^)") {
             const colorizedNums = bitwiseXor(decimalToBinary(firstNum), decimalToBinary(secondNum));
             result.push(colorizedNums[0]);
             result.push(colorizedNums[1]);
             result.push(decimalToBinary((parseInt(firstNum) ^ parseInt(secondNum)).toString()));
+            result.push(firstNum);
+            result.push(secondNum);
+            result.push(parseInt(firstNum) ^ parseInt(secondNum));
         } else if (op === "Bitwise NOT (~)") {
             result.push(decimalToBinary(secondNum));
             result.push("");
             result.push(decimalToBinary((~parseInt(secondNum)).toString()));
+            result.push(secondNum);
+            result.push("");
+            result.push(~parseInt(secondNum));
         } else if (op === "Right Shift (>>)") {
             result.push(decimalToBinary(firstNum));
             result.push("");
             result.push(decimalToBinary((parseInt(firstNum) >> parseInt(secondNum)).toString()));
+            result.push(firstNum);
+            result.push("");
+            result.push(parseInt(firstNum) >> parseInt(secondNum));
         } else if (op === "Left Shift (<<)") {
             result.push(decimalToBinary(firstNum));
             result.push("");
             result.push(decimalToBinary((parseInt(firstNum) << parseInt(secondNum)).toString()));
+            result.push(firstNum);
+            result.push("");
+            result.push(parseInt(firstNum) << parseInt(secondNum));
         }
         return (
-            <div className='mt-6 text-xl'>
-                <div>{result[0]}</div>
-                <div>{result[1]}</div>
-                <div className='mt-4'>{result[2]}</div>
+            <div className='flex flex-row gap-6 mt-6 text-xl'>
+                <div className='ml-auto'>
+                    <h3 className='mb-4'>Binary</h3>
+                    <div>{result[0]}</div>
+                    <div>{result[1]}</div>
+                    <div className='mt-4'>{result[2]}</div>
+                </div>
+                <div className='mr-auto'>
+                    <h3 className='mb-4'>Decimal</h3>
+                    <div>{result[3]}</div>
+                    <div>{result[4]}</div>
+                    <div className='mt-4'>{result[5]}</div>
+                </div>
             </div>
         )
     }
 
     return (
         <div>
-            <div className='font-sans text-6xl'>
-                <h1>Bit Manipulation</h1>
-            </div>
             <div className='mt-12'>
                 <h2 className='font-mono text-2xl'>{operation}</h2>
                 <div className='flex gap-4 mt-6 justify-center'>
