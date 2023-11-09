@@ -12,6 +12,14 @@ function BitManipulation() {
     const [secondNum, setSecondNum] = useState("")
     const [operation, setOperation] = useState("Right Shift (>>)")
 
+    const inputRegex = /^[0-9\b]+$/;
+
+    const validate = (e, setNum) => {
+        if ((e.target.value === '' || inputRegex.test(e.target.value)) && e.target.value <= 2147483647) {
+            setNum(e.target.value);
+        }
+    }
+
     const bitwiseAnd = function(a: string, b: string) {
         const splitA: (string | ReactElement)[] = a.split("");
         const splitB: (string | ReactElement)[] = b.split("");
@@ -127,7 +135,7 @@ function BitManipulation() {
             <div className='mt-12'>
                 <h2 className='font-mono text-2xl'>{operation}</h2>
                 <div className='flex gap-4 mt-6 justify-center'>
-                    {operation === "Bitwise NOT (~)" ? "" : <input className='bg-stone-800 p-1 rounded-md' value={firstNum} onChange={e => setFirstNum(e.target.value)}></input>}
+                    {operation === "Bitwise NOT (~)" ? "" : <input className='bg-stone-800 p-1 rounded-md' value={firstNum} onChange={e => validate(e, setFirstNum)}></input>}
                     <select className='bg-stone-800 p-1 text-center align-middle rounded-md' onChange={e => setOperation(e.target.value)}>
                         <option value="Right Shift (>>)">{">>"}</option>
                         <option value="Left Shift (<<)">{"<<"}</option>
@@ -136,7 +144,7 @@ function BitManipulation() {
                         <option value="Bitwise XOR (^)">^</option>
                         <option value="Bitwise NOT (~)">~</option>
                     </select>
-                    <input className='bg-stone-800 p-1 rounded-md' value={secondNum} onChange={e => setSecondNum(e.target.value)}></input>
+                    <input className='bg-stone-800 p-1 rounded-md' value={secondNum} onChange={e => validate(e, setSecondNum)}></input>
                 </div>
             </div>
             {renderOperation(operation)}
