@@ -7,106 +7,108 @@ const decimalToBinary = function(num: string): string {
     return result;
 }
 
+const inputRegex = /^[0-9\b]+$/;
+
+const validate = (value: string) => {
+    return value === '' || (inputRegex.test(value) && parseInt(value) <= 2147483647);
+}
+
+const bitwiseAnd = function(a: string, b: string) {
+    const splitA: (string | ReactElement)[] = a.split("");
+    const splitB: (string | ReactElement)[] = b.split("");
+    for (let i = 0; i < 32; i++) {
+        if (splitA[i] === "1" && splitB[i] === "1") {
+            splitA[i] = <span className='text-emerald-400'>{a[i]}</span>
+            splitB[i] = <span className='text-emerald-400'>{b[i]}</span>
+        }
+    }
+    return [splitA, splitB];
+}
+
+const bitwiseOr = function(a: string, b: string) {
+    const splitA: (string | ReactElement)[] = a.split("");
+    const splitB: (string | ReactElement)[] = b.split("");
+    for (let i = 0; i < 32; i++) {
+        if (splitA[i] === "1") {
+            splitA[i] = <span className='text-emerald-400'>{a[i]}</span>
+        }
+        if (splitB[i] === "1") {
+            splitB[i] = <span className='text-emerald-400'>{b[i]}</span>
+        }
+    }
+    return [splitA, splitB];
+}
+
+const bitwiseXor = function(a: string, b: string) {
+    const splitA: (string | ReactElement)[] = a.split("");
+    const splitB: (string | ReactElement)[] = b.split("");
+    for (let i = 0; i < 32; i++) {
+        if (splitA[i] === "1" && splitB[i] !== "1") {
+            splitA[i] = <span className='text-emerald-400'>{a[i]}</span>
+        }
+        if (splitB[i] === "1" && splitA[i] !== "1") {
+            splitB[i] = <span className='text-emerald-400'>{b[i]}</span>
+        }
+        if (splitA[i] === "1" && splitB[i] === "1") {
+            splitA[i] = <span className='text-red-500'>{a[i]}</span>
+            splitB[i] = <span className='text-red-500'>{b[i]}</span>
+        }
+    }
+    return [splitA, splitB];
+}
+
 function BitManipulation() {
     const [firstNum, setFirstNum] = useState("")
     const [secondNum, setSecondNum] = useState("")
     const [operation, setOperation] = useState("Right Shift (>>)")
 
-    const inputRegex = /^[0-9\b]+$/;
-
-    const validate = (value: string) => {
-        return value === '' || (inputRegex.test(value) && parseInt(value) <= 2147483647);
-    }
-
-    const bitwiseAnd = function(a: string, b: string) {
-        const splitA: (string | ReactElement)[] = a.split("");
-        const splitB: (string | ReactElement)[] = b.split("");
-        for (let i = 0; i < 32; i++) {
-            if (splitA[i] === "1" && splitB[i] === "1") {
-                splitA[i] = <span className='text-emerald-400'>{a[i]}</span>
-                splitB[i] = <span className='text-emerald-400'>{b[i]}</span>
-            }
-        }
-        return [splitA, splitB];
-    }
-
-    const bitwiseOr = function(a: string, b: string) {
-        const splitA: (string | ReactElement)[] = a.split("");
-        const splitB: (string | ReactElement)[] = b.split("");
-        for (let i = 0; i < 32; i++) {
-            if (splitA[i] === "1") {
-                splitA[i] = <span className='text-emerald-400'>{a[i]}</span>
-            }
-            if (splitB[i] === "1") {
-                splitB[i] = <span className='text-emerald-400'>{b[i]}</span>
-            }
-        }
-        return [splitA, splitB];
-    }
-
-    const bitwiseXor = function(a: string, b: string) {
-        const splitA: (string | ReactElement)[] = a.split("");
-        const splitB: (string | ReactElement)[] = b.split("");
-        for (let i = 0; i < 32; i++) {
-            if (splitA[i] === "1" && splitB[i] !== "1") {
-                splitA[i] = <span className='text-emerald-400'>{a[i]}</span>
-            }
-            if (splitB[i] === "1" && splitA[i] !== "1") {
-                splitB[i] = <span className='text-emerald-400'>{b[i]}</span>
-            }
-            if (splitA[i] === "1" && splitB[i] === "1") {
-                splitA[i] = <span className='text-red-500'>{a[i]}</span>
-                splitB[i] = <span className='text-red-500'>{b[i]}</span>
-            }
-        }
-        return [splitA, splitB];
-    }
-
     const renderOperation = function(op: string) {
         const result = [];
+        const first = firstNum || 0;
+        const second = secondNum || 0;
         if (op === "Bitwise AND (&)") {
             const colorizedNums = bitwiseAnd(decimalToBinary(firstNum), decimalToBinary(secondNum));
             result.push(colorizedNums[0]);
             result.push(colorizedNums[1]);
             result.push(decimalToBinary((parseInt(firstNum) & parseInt(secondNum)).toString()));
-            result.push(firstNum);
-            result.push(secondNum);
+            result.push(first);
+            result.push(second);
             result.push(parseInt(firstNum) & parseInt(secondNum));
         } else if (op === "Bitwise OR (|)") {
             const colorizedNums = bitwiseOr(decimalToBinary(firstNum), decimalToBinary(secondNum));
             result.push(colorizedNums[0]);
             result.push(colorizedNums[1]);
             result.push(decimalToBinary((parseInt(firstNum) | parseInt(secondNum)).toString()));
-            result.push(firstNum);
-            result.push(secondNum);
+            result.push(first);
+            result.push(second);
             result.push(parseInt(firstNum) | parseInt(secondNum));
         } else if (op === "Bitwise XOR (^)") {
             const colorizedNums = bitwiseXor(decimalToBinary(firstNum), decimalToBinary(secondNum));
             result.push(colorizedNums[0]);
             result.push(colorizedNums[1]);
             result.push(decimalToBinary((parseInt(firstNum) ^ parseInt(secondNum)).toString()));
-            result.push(firstNum);
-            result.push(secondNum);
+            result.push(first);
+            result.push(second);
             result.push(parseInt(firstNum) ^ parseInt(secondNum));
         } else if (op === "Bitwise NOT (~)") {
             result.push(decimalToBinary(secondNum));
             result.push("");
             result.push(decimalToBinary((~parseInt(secondNum)).toString()));
-            result.push(secondNum);
+            result.push(second);
             result.push("");
             result.push(~parseInt(secondNum));
         } else if (op === "Right Shift (>>)") {
             result.push(decimalToBinary(firstNum));
             result.push("");
             result.push(decimalToBinary((parseInt(firstNum) >> parseInt(secondNum)).toString()));
-            result.push(firstNum);
+            result.push(first);
             result.push("");
             result.push(parseInt(firstNum) >> parseInt(secondNum));
         } else if (op === "Left Shift (<<)") {
             result.push(decimalToBinary(firstNum));
             result.push("");
             result.push(decimalToBinary((parseInt(firstNum) << parseInt(secondNum)).toString()));
-            result.push(firstNum);
+            result.push(first);
             result.push("");
             result.push(parseInt(firstNum) << parseInt(secondNum));
         }
